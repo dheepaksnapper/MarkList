@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Mark Consolidation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhj6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  </head>
+  <body class="bg-light">
+    <div class="container-fluid d-print-none">
+      <div class="row min-vh-100">
+
+        <!-- Main Content Area -->
+        <div class="col-md-8 col-lg-9 p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 id="exam-title" class="mb-0">1st MIDTERM TEST</h1>
+              <p id="class-info" class="text-muted mb-0">Class: XI C, D1 | Year: 2025-2026</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-warning rounded-pill" id="edit-header-btn">
+                <i class="bi bi-pencil"></i> Edit Details
+              </button>
+              <button class="btn btn-primary rounded-pill" id="print-btn">
+                <i class="bi bi-printer"></i> Print
+              </button>
+            </div>
+          </div>
+          
+          <div class="card rounded-3 shadow-sm mb-4">
+            <div class="card-header bg-primary text-white text-center rounded-top-3">
+              <h5 class="mb-0">Student List</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                  <thead class="table-dark">
+                    <tr>
+                      <th scope="col">S.NO</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Language</th>
+                      <th scope="col">English</th>
+                      <th scope="col">Econ & Skills</th>
+                      <th scope="col">Commerce</th>
+                      <th scope="col">Accountancy</th>
+                      <th scope="col">CA & AUD</th>
+                      <th scope="col">Grand Total</th>
+                      <th scope="col">Percentage</th>
+                      <th scope="col">Rank</th>
+                      <th scope="col">Attendance</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="student-table-body">
+                    <!-- Student rows will be dynamically inserted here by JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collapsible Sidebar for Student Details -->
+        <div class="col-md-4 col-lg-3 bg-white border-start p-4 d-flex flex-column align-items-stretch" id="student-details-sidebar">
+          <button class="btn btn-primary d-md-none mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarContent" aria-expanded="false" aria-controls="sidebarContent">
+            Show Student Details
+          </button>
+          <div class="collapse d-md-block" id="sidebarContent">
+            <div class="sticky-top">
+              <div class="card rounded-3 shadow-sm">
+                <div class="card-header bg-success text-white text-center rounded-top-3">
+                  <h5 class="mb-0">Selected Student Details</h5>
+                </div>
+                <div class="card-body">
+                  <h6 id="sidebar-student-name" class="fw-bold text-center">No student selected</h6>
+                  <p class="text-center mb-1">Grand Total: <span id="sidebar-grand-total">--</span></p>
+                  <p class="text-center mb-1">Percentage: <span id="sidebar-percentage">--</span></p>
+                  <p class="text-center mb-1">Rank: <span id="sidebar-rank">--</span></p>
+                  <p class="text-center mb-1">Attendance: <span id="sidebar-attendance">--</span></p>
+                  <hr>
+                  <h6 class="text-center">Subject Marks</h6>
+                  <ul class="list-group list-group-flush" id="sidebar-subject-list">
+                    <!-- Subject marks will be added here -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Print-only content -->
+    <div id="print-content" class="d-none d-print-block">
+        <div class="print-block-keep-together">
+            <div class="text-center mb-4">
+                <h5 id="print-school-name" class="fw-bold">ASHRAM MATRICULATION HIGHER SECONDARY SCHOOL 2024-2025</h5>
+                <h6 id="print-exam-name" class="fw-bold">1st MIDTERM TEST CONSOLIDATED MARK LIST</h6>
+                <p id="print-class-info" class="mb-0">XI C, D1 2024-2025</p>
+            </div>
+            <table class="table table-bordered print-table w-100">
+                <thead class="bg-light">
+                    <tr>
+                        <th rowspan="2" class="align-middle text-center">S.NO</th>
+                        <th rowspan="2" class="align-middle text-center">NAME OF THE STUDENT</th>
+                        <th colspan="6" class="text-center">GROUP CODE - 2702</th>
+                        <th rowspan="2" class="align-middle text-center">GRAND TOTAL</th>
+                        <th rowspan="2" class="align-middle text-center">PERCENTAGE</th>
+                        <th rowspan="2" class="align-middle text-center">RANK</th>
+                        <th rowspan="2" class="align-middle text-center">ATTENDANCE</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">LANGUAGE</th>
+                        <th class="text-center">ENGLISH</th>
+                        <th class="text-center">ECONOMICS & EMPOLYABILITY SKILLS</th>
+                        <th class="text-center">COMMERCE</th>
+                        <th class="text-center">ACCOUNTANCY</th>
+                        <th class="text-center">CA & AUD</th>
+                    </tr>
+                </thead>
+                <tbody id="print-table-body">
+                    <!-- Student data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+            <!-- Signatures section -->
+            <div id="signatures-section" class="mt-5">
+                <div class="d-flex justify-content-between text-center">
+                    <p>SIGNATURE OF THE CLASS TEACHER</p>
+                    <p>SIGNATURE OF THE CO-ORDINATOR</p>
+                    <p>SIGNATURE OF THE PRINCIPAL</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mark Entry Modal -->
+    <div class="modal fade" id="mark-entry-modal" tabindex="-1" aria-labelledby="markEntryModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg">
+          <div class="modal-header bg-dark text-white rounded-top-4">
+            <h5 class="modal-title" id="markEntryModalLabel">Enter Marks for <span id="student-name-in-modal"></span></h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <form id="mark-entry-form">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="language-mark" class="form-label">LANGUAGE (out of 100)</label>
+                  <input type="number" class="form-control rounded-pill" id="language-mark" min="0" max="100">
+                </div>
+                <div class="col-md-6">
+                  <label for="english-mark" class="form-label">ENGLISH (out of 100)</label>
+                  <input type="number" class="form-control rounded-pill" id="english-mark" min="0" max="100">
+                </div>
+                <div class="col-md-6">
+                  <label for="economics-mark" class="form-label">ECONOMICS & EMPOLYABILITY SKILLS (out of 100)</label>
+                  <input type="number" class="form-control rounded-pill" id="economics-mark" min="0" max="100">
+                </div>
+                <div class="col-md-6">
+                  <label for="commerce-mark" class="form-label">COMMERCE (out of 100)</label>
+                  <input type="number" class="form-control rounded-pill" id="commerce-mark" min="0" max="100">
+                </div>
+                <div class="col-md-6">
+                  <label for="accountancy-mark" class="form-label">ACCOUNTANCY (out of 100)</label>
+                  <input type="number" class="form-control rounded-pill" id="accountancy-mark" min="0" max="100">
+                </div>
+                <div class="col-md-6">
+                  <label for="ca-aud-mark" class="form-label">CA & AUD (out of 100)</label>
+                  <input type="number" class="form-control rounded-pill" id="ca-aud-mark" min="0" max="100">
+                </div>
+                <div class="col-12">
+                  <label for="attendance-input" class="form-label">Attendance (out of 42)</label>
+                  <input type="number" class="form-control rounded-pill" id="attendance-input" min="0" max="42">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer d-flex justify-content-between p-3 rounded-bottom-4 bg-light">
+            <button type="button" class="btn btn-outline-primary rounded-pill" id="prev-student-btn"><i class="bi bi-arrow-left"></i> Previous</button>
+            <button type="button" class="btn btn-success rounded-pill" id="save-mark-btn"><i class="bi bi-floppy"></i> Save</button>
+            <button type="button" class="btn btn-outline-primary rounded-pill" id="next-student-btn">Next <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Edit Header Modal -->
+    <div class="modal fade" id="edit-header-modal" tabindex="-1" aria-labelledby="editHeaderModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg">
+          <div class="modal-header bg-dark text-white rounded-top-4">
+            <h5 class="modal-title" id="editHeaderModalLabel">Edit Report Details</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <form id="edit-header-form">
+              <div class="mb-3">
+                <label for="exam-name-input" class="form-label">Name of the EXAM</label>
+                <input type="text" class="form-control rounded-pill" id="exam-name-input" value="1st MIDTERM TEST">
+              </div>
+              <div class="mb-3">
+                <label for="class-name-input" class="form-label">Class</label>
+                <input type="text" class="form-control rounded-pill" id="class-name-input" value="XI C, D1">
+              </div>
+              <div class="mb-3">
+                <label for="year-input" class="form-label">Year</label>
+                <input type="text" class="form-control rounded-pill" id="year-input" value="2025-2026">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer p-3 rounded-bottom-4 bg-light">
+            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary rounded-pill" id="save-header-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+@media print {
+  .print-block-keep-together {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    display: block;
+  }
+}
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.table-responsive {
+    border-radius: 0.5rem;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.card {
+    border-radius: 0.75rem;
+}
+
+.modal-content {
+    border-radius: 1rem;
+}
+
+#student-details-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 767.98px) {
+    #student-details-sidebar {
+        height: auto;
+        position: static;
+        overflow-y: visible;
+        border-top: 1px solid #dee2e6;
+    }
+}
+
+/* Print-specific styles */
+@media print {
+  body {
+    background-color: #fff !important;
+  }
+
+  .d-print-none {
+    display: none !important;
+  }
+
+  #print-content {
+    display: block !important;
+  }
+
+  .print-table {
+    border-collapse: collapse;
+  }
+
+  .print-table th, .print-table td {
+    border: 1px solid black;
+    padding: 8px;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .print-table thead th {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+  }
+
+  .print-table tbody td {
+    font-size: 10px;
+  }
+
+  /* #signatures-section {
+    page-break-before: always;
+  } */
+
+  #signatures-section p {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 50px;
+  }
+
+  h5, h6, p {
+    margin: 0;
+    padding: 0;
+  }
+
+  h5 {
+    font-size: 14px;
+  }
+
+  h6 {
+    font-size: 13px;
+  }
+
+}
