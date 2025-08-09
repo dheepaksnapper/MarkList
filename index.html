@@ -23,37 +23,35 @@
               <p id="class-info" class="text-muted mb-0">Class: XI C, D1 | Year: 2025-2026</p>
             </div>
             <div class="d-flex gap-2">
-              <button class="btn btn-warning rounded-pill" id="edit-header-btn">
-                <i class="bi bi-pencil"></i> Edit Details
+              <button class="btn btn-warning rounded-pill px-3" id="edit-header-btn" title="Edit Details">
+                <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn btn-primary rounded-pill" id="print-btn">
-                <i class="bi bi-printer"></i> Print
+              <button class="btn btn-primary rounded-pill px-3" id="print-btn" title="Print">
+                <i class="bi bi-printer"></i>
               </button>
             </div>
           </div>
           
-          <div class="card rounded-3 shadow-sm mb-4">
-            <div class="card-header bg-primary text-white text-center rounded-top-3">
-              <h5 class="mb-0">Student List</h5>
-            </div>
+          <!-- Desktop Table View -->
+          <div class="card rounded-3 shadow-sm mb-4 d-none d-md-block">
             <div class="card-body p-0">
               <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0">
                   <thead class="table-dark">
                     <tr>
-                      <th scope="col">S.NO</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Language</th>
-                      <th scope="col">English</th>
-                      <th scope="col">Econ & Skills</th>
-                      <th scope="col">Commerce</th>
-                      <th scope="col">Accountancy</th>
-                      <th scope="col">CA & AUD</th>
-                      <th scope="col">Grand Total</th>
-                      <th scope="col">Percentage</th>
-                      <th scope="col">Rank</th>
-                      <th scope="col">Attendance</th>
-                      <th scope="col">Action</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:50px;max-width:60px;">S.NO</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:160px;max-width:220px;">Name</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;white-space:normal;" title="Language">Lang</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;white-space:normal;" title="English">Eng</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;white-space:normal;" title="Economics & Employability Skills">Econ<br>&<br>Skills</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;white-space:normal;" title="Commerce">Comm</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;white-space:normal;" title="Accountancy">Acct</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;white-space:normal;" title="Computer Applications & Auditing">CA<br>&<br>AUD</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:100px;max-width:110px;">Grand<br>Total</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;">%</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:70px;max-width:70px;">Rank</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:90px;max-width:90px;">Attnd</th>
+                      <th scope="col" class="align-middle text-center" style="min-width:70px;max-width:80px;">Action</th>
                     </tr>
                   </thead>
                   <tbody id="student-table-body">
@@ -62,6 +60,10 @@
                 </table>
               </div>
             </div>
+          </div>
+          <!-- Mobile Card View -->
+          <div id="student-card-list" class="d-block d-md-none mb-4">
+            <!-- Student cards will be dynamically inserted here by JavaScript -->
           </div>
         </div>
 
@@ -115,12 +117,12 @@
                         <th rowspan="2" class="align-middle text-center">ATTENDANCE</th>
                     </tr>
                     <tr>
-                        <th class="text-center">LANGUAGE</th>
-                        <th class="text-center">ENGLISH</th>
-                        <th class="text-center">ECONOMICS & EMPOLYABILITY SKILLS</th>
-                        <th class="text-center">COMMERCE</th>
-                        <th class="text-center">ACCOUNTANCY</th>
-                        <th class="text-center">CA & AUD</th>
+                        <th class="text-center" style="min-width:90px;max-width:90px;white-space:normal;">LANGUAGE</th>
+                        <th class="text-center" style="min-width:90px;max-width:90px;white-space:normal;">ENGLISH</th>
+                        <th class="text-center" style="min-width:90px;max-width:90px;white-space:normal;">ECONOMICS<br>&<br>EMPOLYABILITY<br>SKILLS</th>
+                        <th class="text-center" style="min-width:90px;max-width:90px;white-space:normal;">COMMERCE</th>
+                        <th class="text-center" style="min-width:90px;max-width:90px;white-space:normal;">ACCOUNTANCY</th>
+                        <th class="text-center" style="min-width:90px;max-width:90px;white-space:normal;">CA & AUD</th>
                     </tr>
                 </thead>
                 <tbody id="print-table-body">

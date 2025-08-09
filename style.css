@@ -1,3 +1,135 @@
+/* Mobile student card view styles */
+@media (max-width: 767.98px) {
+  .d-md-block { display: none !important; }
+  .d-md-none { display: block !important; }
+  #student-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  /* Hide Show Student Details button on mobile */
+  #student-details-sidebar .btn.d-md-none {
+    display: none !important;
+  }
+  .student-card {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .student-card-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .student-card-header .badge {
+    font-size: 0.95em;
+    vertical-align: middle;
+    font-weight: 600;
+    padding: 0.4em 0.7em;
+    letter-spacing: 0.02em;
+  }
+  .student-card-edit-btn {
+    margin-left: 0.5rem;
+    margin-top: 0.1rem;
+  }
+  .student-card-marks-row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .student-card-marks-row .col-4 {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+  .student-card-marks-row span {
+    font-size: 0.98rem;
+    display: block;
+    min-width: unset;
+    font-weight: 500;
+  }
+  .student-card-marks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.2rem;
+    font-size: 0.98rem;
+  }
+  .student-card-marks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    font-size: 0.98rem;
+  }
+  .student-card-marks span {
+    display: inline-block;
+    min-width: 120px;
+  }
+  .student-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  .student-card-edit-btn {
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: background 0.2s;
+  }
+  .student-card-edit-btn:active {
+    background: #0b5ed7;
+  }
+}
+/* Mobile-friendly table improvements */
+@media (max-width: 767.98px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .table {
+    min-width: 700px;
+    font-size: 13px;
+  }
+  .table th, .table td {
+    padding: 0.4rem 0.3rem;
+    font-size: 12px;
+  }
+  /* Optional: Add a scroll hint */
+  .table-responsive::after {
+    content: 'Swipe →';
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    color: #888;
+    font-size: 12px;
+    background: #fff8;
+    padding: 2px 8px;
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 2;
+  }
+}
 @media print {
   .print-block-keep-together {
     break-inside: avoid;

@@ -74,24 +74,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentStudentIndex = 0;
 
-  // Function to render the student table
+  // Function to render the student table (desktop) and mobile card view
   function renderTable() {
     // First, sort students by grand total to calculate ranks
     const sortedStudents = [...students].sort((a, b) => b.grandTotal - a.grandTotal);
-    
     // Assign rank, handling ties
     let rank = 1;
     for (let i = 0; i < sortedStudents.length; i++) {
-        if (i > 0 && sortedStudents[i].grandTotal < sortedStudents[i-1].grandTotal) {
-            rank = i + 1;
-        }
-        sortedStudents[i].rank = rank;
+      if (i > 0 && sortedStudents[i].grandTotal < sortedStudents[i-1].grandTotal) {
+        rank = i + 1;
+      }
+      sortedStudents[i].rank = rank;
     }
-
     tableBody.innerHTML = '';
     printTableBody.innerHTML = '';
     students.forEach((student, index) => {
-      // Main table row
+      // Main table row (desktop)
       const row = document.createElement('tr');
       row.innerHTML = `
         <th scope="row">${student.id}</th>
@@ -113,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </td>
       `;
       tableBody.appendChild(row);
-
       // Print table row
       const printRow = document.createElement('tr');
       printRow.innerHTML = `
@@ -131,6 +128,62 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${student.attendance}</td>
       `;
       printTableBody.appendChild(printRow);
+    });
+    renderStudentCards();
+  }
+
+  // Function to render student cards for mobile view
+  function renderStudentCards() {
+    const cardList = document.getElementById('student-card-list');
+    if (!cardList) return;
+    cardList.innerHTML = '';
+    // Subject abbreviations
+    const abbr = {
+      language: 'LAN',
+      english: 'ENG',
+      economics: 'ECO',
+      commerce: 'COM',
+      accountancy: 'ACC',
+      caAud: 'CA/AUD'
+    };
+    students.forEach((student, index) => {
+      const card = document.createElement('div');
+      card.className = 'student-card';
+      card.innerHTML = `
+        <div class="student-card-header d-flex justify-content-between align-items-start">
+          <div>
+            <span>${student.name}</span>
+            <span class="badge bg-danger ms-2" title="Rank">${student.rank !== null ? student.rank : 'N/A'}</span>
+            <span class="badge bg-primary ms-1" title="Attendance">${student.attendance}</span>
+          </div>
+          <button class="student-card-edit-btn mt-1" data-index="${index}" aria-label="Edit marks for ${student.name}"><i class="bi bi-pencil-square"></i></button>
+        </div>
+        <div class="student-card-marks-row row g-1 mt-2">
+          <div class="col-4"><span><b>${abbr.language}:</b> ${student.marks.language}</span></div>
+          <div class="col-4"><span><b>${abbr.english}:</b> ${student.marks.english}</span></div>
+          <div class="col-4"><span><b>${abbr.economics}:</b> ${student.marks.economics}</span></div>
+          <div class="col-4"><span><b>${abbr.commerce}:</b> ${student.marks.commerce}</span></div>
+          <div class="col-4"><span><b>${abbr.accountancy}:</b> ${student.marks.accountancy}</span></div>
+          <div class="col-4"><span><b>${abbr.caAud}:</b> ${student.marks.caAud}</span></div>
+        </div>
+        <div class="student-card-marks mt-2">
+          <span><b>Total:</b> ${student.grandTotal}</span>
+          <span><b>%:</b> ${student.percentage.toFixed(2)}%</span>
+        </div>
+      `;
+      cardList.appendChild(card);
+    });
+  }
+  // Event listener for the mobile card view's edit buttons
+  const studentCardList = document.getElementById('student-card-list');
+  if (studentCardList) {
+    studentCardList.addEventListener('click', (e) => {
+      const editBtn = e.target.closest('.student-card-edit-btn');
+      if (editBtn) {
+        const index = parseInt(editBtn.dataset.index);
+        updateModal(index);
+        updateSidebar(students[index]);
+      }
     });
   }
 
@@ -299,6 +352,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  // Initial render of the table
+  // Initial render of the table and mobile cards
   renderTable();
 });
