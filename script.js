@@ -86,29 +86,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       sortedStudents[i].rank = rank;
     }
-    tableBody.innerHTML = '';
+  tableBody.innerHTML = ''; 
     printTableBody.innerHTML = '';
     students.forEach((student, index) => {
       // Main table row (desktop)
       const row = document.createElement('tr');
       row.innerHTML = `
-        <th scope="row">${student.id}</th>
-        <td>${student.name}</td>
-        <td>${student.marks.language}</td>
-        <td>${student.marks.english}</td>
-        <td>${student.marks.economics}</td>
-        <td>${student.marks.commerce}</td>
-        <td>${student.marks.accountancy}</td>
-        <td>${student.marks.caAud}</td>
-        <td>${student.grandTotal}</td>
-        <td>${student.percentage.toFixed(2)}%</td>
-        <td>${student.rank !== null ? student.rank : 'N/A'}</td>
-        <td>${student.attendance}</td>
-        <td>
+        <td class="text-center">
           <button class="btn btn-sm btn-primary edit-btn" data-index="${index}">
-            <i class="bi bi-pencil-square"></i> Edit
+            <i class="bi bi-pencil-square"></i>
           </button>
         </td>
+        <th scope="row" class="text-center">${student.id}</th>
+        <td>${student.name}</td>
+        <td class="text-center">${student.marks.language}</td>
+        <td class="text-center">${student.marks.english}</td>
+        <td class="text-center">${student.marks.economics}</td>
+        <td class="text-center">${student.marks.commerce}</td>
+        <td class="text-center">${student.marks.accountancy}</td>
+        <td class="text-center">${student.marks.caAud}</td>
+        <td class="text-center">${student.grandTotal}</td>
+        <td class="text-center">${student.percentage.toFixed(2)}%</td>
+        <td class="text-center">${student.rank !== null ? student.rank : 'N/A'}</td>
+        <td class="text-center">${student.attendance}</td>
       `;
       tableBody.appendChild(row);
       // Print table row
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       accountancy: 'ACC',
       caAud: 'CA/AUD'
     };
-    students.forEach((student, index) => {
+  students.forEach((student, index) => { 
       const card = document.createElement('div');
       card.className = 'student-card';
       card.innerHTML = `
@@ -185,6 +185,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSidebar(students[index]);
       }
     });
+        // Double-click on card to open edit modal
+        studentCardList.addEventListener('dblclick', (e) => {
+          const card = e.target.closest('.student-card');
+          if (card) {
+            // Find the edit button inside the card and get its data-index
+            const editBtn = card.querySelector('.student-card-edit-btn');
+            if (editBtn) {
+              const index = parseInt(editBtn.dataset.index);
+              updateModal(index);
+              updateSidebar(students[index]);
+            }
+          }
+        });
   }
 
   // Function to update the modal with the current student's data
@@ -261,6 +274,19 @@ document.addEventListener('DOMContentLoaded', () => {
       updateModal(index);
       updateSidebar(students[index]);
     }
+      });
+      // Double-click on table row to open edit modal
+      tableBody.addEventListener('dblclick', (e) => {
+        const row = e.target.closest('tr');
+        if (row) {
+          // Find the edit button inside the row and get its data-index
+          const editBtn = row.querySelector('.edit-btn');
+          if (editBtn) {
+            const index = parseInt(editBtn.dataset.index);
+            updateModal(index);
+            updateSidebar(students[index]);
+          }
+        }
   });
 
   // Event listener for the modal's "Save" button
