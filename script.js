@@ -221,9 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function markCell(val) {
-    if (val === 'AB') return '<span class="text-danger fw-bold">AB</span>';
-    if (typeof val === 'number' && val < 40) return `<span style="text-decoration:underline;font-weight:bold;">${val}</span>`;
-    return val;
+  if (val === 'AB') return '<b style="color:#dc3545;">AB</b>';
+  if (typeof val === 'number' && val < 40) return `<b style="text-decoration:underline;">${val}</b>`;
+  return `${val}`;
   }
 
   // Function to render student cards for mobile view
@@ -253,12 +253,12 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="student-card-edit-btn mt-1" data-index="${index}" aria-label="Edit marks for ${student.name}"><i class="bi bi-pencil-square"></i></button>
         </div>
         <div class="student-card-marks-row row g-1 mt-2">
-          <div class="col-4"><span><b>${abbr.language}:</b> ${markCell(student.marks.language)}</span></div>
-          <div class="col-4"><span><b>${abbr.english}:</b> ${markCell(student.marks.english)}</span></div>
-          <div class="col-4"><span><b>${abbr.economics}:</b> ${markCell(student.marks.economics)}</span></div>
-          <div class="col-4"><span><b>${abbr.commerce}:</b> ${markCell(student.marks.commerce)}</span></div>
-          <div class="col-4"><span><b>${abbr.accountancy}:</b> ${markCell(student.marks.accountancy)}</span></div>
-          <div class="col-4"><span><b>${abbr.caAud}:</b> ${markCell(student.marks.caAud)}</span></div>
+          <div class="col-4"><b>${abbr.language}:</b> ${markCell(student.marks.language)}</div>
+          <div class="col-4"><b>${abbr.english}:</b> ${markCell(student.marks.english)}</div>
+          <div class="col-4"><b>${abbr.economics}:</b> ${markCell(student.marks.economics)}</div>
+          <div class="col-4"><b>${abbr.commerce}:</b> ${markCell(student.marks.commerce)}</div>
+          <div class="col-4"><b>${abbr.accountancy}:</b> ${markCell(student.marks.accountancy)}</div>
+          <div class="col-4"><b>${abbr.caAud}:</b> ${markCell(student.marks.caAud)}</div>
         </div>
         <div class="student-card-marks mt-2">
           <span><b>Total:</b> ${student.grandTotal}</span>
