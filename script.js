@@ -1,6 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Reset button logic
+  const resetBtn = document.getElementById('reset-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset all data? This will erase all marks and report details.')) {
+        localStorage.removeItem('students');
+        localStorage.removeItem('reportDetails');
+        location.reload();
+      }
+    });
+  }
+  // Step 6: Save/load report details (exam name, class, year)
+  function saveReportDetailsToLocalStorage() {
+    const reportDetails = {
+      examName: examTitle.textContent,
+      className: classInfo.textContent.split(' | ')[0].replace('Class: ', ''),
+      year: classInfo.textContent.split(' | ')[1].replace('Year: ', '')
+    };
+    localStorage.setItem('reportDetails', JSON.stringify(reportDetails));
+  }
+
+  function loadReportDetailsFromLocalStorage() {
+    const data = localStorage.getItem('reportDetails');
+    if (data) {
+      const details = JSON.parse(data);
+      if (details.examName) examTitle.textContent = details.examName;
+      if (details.className && details.year) classInfo.textContent = `Class: ${details.className} | Year: ${details.year}`;
+      if (details.examName) printExamName.textContent = `${details.examName} CONSOLIDATED MARK LIST`;
+      if (details.className && details.year) printClassInfo.textContent = `${details.className} ${details.year}`;
+    }
+  }
+  // Step 1: Local storage save/load functions
+  function saveStudentsToLocalStorage() {
+    localStorage.setItem('students', JSON.stringify(students));
+  }
+
+  function loadStudentsFromLocalStorage() {
+    const data = localStorage.getItem('students');
+    if (data) {
+      students = JSON.parse(data);
+    }
+  }
+  // Declare students globally
+  let students;
   // Initial student data structure with multiple subjects
-  let students = [
+  const initialStudents = [
     { id: 1, name: "ARSHAD RA", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
     { id: 2, name: "ASWIN S N", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
     { id: 3, name: "JAIKRISHNA R", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
@@ -31,6 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 28, name: "SAHANA M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
     { id: 29, name: "SHIRLEYR", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 }
   ];
+
+  // Load students and report details from localStorage or use initial data
+  loadStudentsFromLocalStorage();
+  loadReportDetailsFromLocalStorage();
+  if (!students || students.length === 0) {
+    students = initialStudents;
+    saveStudentsToLocalStorage();
+  }
 
   // DOM elements
   const tableBody = document.getElementById('student-table-body');
@@ -76,21 +128,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to render the student table (desktop) and mobile card view
   function renderTable() {
-    // First, sort students by grand total to calculate ranks
+    // First, sort students by grand total
     const sortedStudents = [...students].sort((a, b) => b.grandTotal - a.grandTotal);
-    // Assign rank, handling ties
-    let rank = 1;
-    for (let i = 0; i < sortedStudents.length; i++) {
-      if (i > 0 && sortedStudents[i].grandTotal < sortedStudents[i-1].grandTotal) {
-        rank = i + 1;
+
+    // Identify eligible students (not absent/fail)
+    const eligible = sortedStudents.filter(student => {
+      const marks = student.marks;
+      for (const subject in marks) {
+        if (subject === 'attendance') continue;
+        if (marks[subject] === 'AB' || (typeof marks[subject] === 'number' && marks[subject] < 40)) {
+          return false;
+        }
       }
-      sortedStudents[i].rank = rank;
+      return true;
+    });
+
+    // Assign ranks in a separate loop
+    let rank = 1;
+    let prevTotal = null;
+    let prevRank = null;
+    for (let i = 0; i < eligible.length; i++) {
+      const student = eligible[i];
+      if (prevTotal !== null && student.grandTotal === prevTotal) {
+        student.rank = prevRank;
+      } else {
+        student.rank = rank;
+        prevRank = rank;
+      }
+      prevTotal = student.grandTotal;
+      rank++;
     }
+
+    // Assign null rank to ineligible students
+    sortedStudents.forEach(student => {
+      if (!eligible.includes(student)) {
+        student.rank = null;
+      }
+    });
+
+    // Update the original students array with the new ranks
+    sortedStudents.forEach(sortedStudent => {
+      const original = students.find(s => s.id === sortedStudent.id);
+      if (original) {
+        original.rank = sortedStudent.rank;
+      }
+    });
   tableBody.innerHTML = ''; 
     printTableBody.innerHTML = '';
     students.forEach((student, index) => {
       // Main table row (desktop)
       const row = document.createElement('tr');
+      const rankDisplay = student.rank !== null ? student.rank : '-';
       row.innerHTML = `
         <td class="text-center">
           <button class="btn btn-sm btn-primary edit-btn" data-index="${index}">
@@ -99,15 +187,15 @@ document.addEventListener('DOMContentLoaded', () => {
         </td>
         <th scope="row" class="text-center">${student.id}</th>
         <td>${student.name}</td>
-        <td class="text-center">${student.marks.language}</td>
-        <td class="text-center">${student.marks.english}</td>
-        <td class="text-center">${student.marks.economics}</td>
-        <td class="text-center">${student.marks.commerce}</td>
-        <td class="text-center">${student.marks.accountancy}</td>
-        <td class="text-center">${student.marks.caAud}</td>
+        <td class="text-center">${markCell(student.marks.language)}</td>
+        <td class="text-center">${markCell(student.marks.english)}</td>
+        <td class="text-center">${markCell(student.marks.economics)}</td>
+        <td class="text-center">${markCell(student.marks.commerce)}</td>
+        <td class="text-center">${markCell(student.marks.accountancy)}</td>
+        <td class="text-center">${markCell(student.marks.caAud)}</td>
         <td class="text-center">${student.grandTotal}</td>
         <td class="text-center">${student.percentage.toFixed(2)}%</td>
-        <td class="text-center">${student.rank !== null ? student.rank : 'N/A'}</td>
+        <td class="text-center">${rankDisplay}</td>
         <td class="text-center">${student.attendance}</td>
       `;
       tableBody.appendChild(row);
@@ -116,20 +204,26 @@ document.addEventListener('DOMContentLoaded', () => {
       printRow.innerHTML = `
         <td>${student.id}</td>
         <td class="text-start">${student.name}</td>
-        <td>${student.marks.language}</td>
-        <td>${student.marks.english}</td>
-        <td>${student.marks.economics}</td>
-        <td>${student.marks.commerce}</td>
-        <td>${student.marks.accountancy}</td>
-        <td>${student.marks.caAud}</td>
+        <td>${markCell(student.marks.language)}</td>
+        <td>${markCell(student.marks.english)}</td>
+        <td>${markCell(student.marks.economics)}</td>
+        <td>${markCell(student.marks.commerce)}</td>
+        <td>${markCell(student.marks.accountancy)}</td>
+        <td>${markCell(student.marks.caAud)}</td>
         <td>${student.grandTotal}</td>
         <td>${student.percentage.toFixed(2)}%</td>
-        <td>${student.rank !== null ? student.rank : 'N/A'}</td>
+        <td>${rankDisplay}</td>
         <td>${student.attendance}</td>
       `;
       printTableBody.appendChild(printRow);
     });
     renderStudentCards();
+  }
+
+  function markCell(val) {
+    if (val === 'AB') return '<span class="text-danger fw-bold">AB</span>';
+    if (typeof val === 'number' && val < 40) return `<span style="text-decoration:underline;font-weight:bold;">${val}</span>`;
+    return val;
   }
 
   // Function to render student cards for mobile view
@@ -153,18 +247,18 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="student-card-header d-flex justify-content-between align-items-start">
           <div>
             <span>${student.name}</span>
-            <span class="badge bg-danger ms-2" title="Rank">${student.rank !== null ? student.rank : 'N/A'}</span>
+            <span class="badge bg-danger ms-2" title="Rank">${student.rank !== null ? student.rank : '-'}</span>
             <span class="badge bg-primary ms-1" title="Attendance">${student.attendance}</span>
           </div>
           <button class="student-card-edit-btn mt-1" data-index="${index}" aria-label="Edit marks for ${student.name}"><i class="bi bi-pencil-square"></i></button>
         </div>
         <div class="student-card-marks-row row g-1 mt-2">
-          <div class="col-4"><span><b>${abbr.language}:</b> ${student.marks.language}</span></div>
-          <div class="col-4"><span><b>${abbr.english}:</b> ${student.marks.english}</span></div>
-          <div class="col-4"><span><b>${abbr.economics}:</b> ${student.marks.economics}</span></div>
-          <div class="col-4"><span><b>${abbr.commerce}:</b> ${student.marks.commerce}</span></div>
-          <div class="col-4"><span><b>${abbr.accountancy}:</b> ${student.marks.accountancy}</span></div>
-          <div class="col-4"><span><b>${abbr.caAud}:</b> ${student.marks.caAud}</span></div>
+          <div class="col-4"><span><b>${abbr.language}:</b> ${markCell(student.marks.language)}</span></div>
+          <div class="col-4"><span><b>${abbr.english}:</b> ${markCell(student.marks.english)}</span></div>
+          <div class="col-4"><span><b>${abbr.economics}:</b> ${markCell(student.marks.economics)}</span></div>
+          <div class="col-4"><span><b>${abbr.commerce}:</b> ${markCell(student.marks.commerce)}</span></div>
+          <div class="col-4"><span><b>${abbr.accountancy}:</b> ${markCell(student.marks.accountancy)}</span></div>
+          <div class="col-4"><span><b>${abbr.caAud}:</b> ${markCell(student.marks.caAud)}</span></div>
         </div>
         <div class="student-card-marks mt-2">
           <span><b>Total:</b> ${student.grandTotal}</span>
@@ -295,18 +389,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalMarks = 0;
     let validMarks = true;
 
-    // Validate and update marks for each subject
+    // Validate and update marks for each subject, allow 'AB' for absent
     for (const subject in studentMarkInputs) {
       const inputElement = studentMarkInputs[subject];
       if (inputElement.id !== 'attendance-input') {
-        const mark = parseInt(inputElement.value);
-        if (isNaN(mark) || mark < 0 || mark > 100) {
-          validMarks = false;
-          console.error(`Invalid mark for ${subject}`);
-          break;
+        const value = inputElement.value.trim().toUpperCase();
+        if (value === 'AB') {
+          student.marks[subject] = 'AB';
+          // Do not add to totalMarks
+        } else {
+          const mark = parseInt(value);
+          if (isNaN(mark) || mark < 0 || mark > 100) {
+            validMarks = false;
+            console.error(`Invalid mark for ${subject}`);
+            break;
+          }
+          student.marks[subject] = mark;
+          totalMarks += mark;
         }
-        student.marks[subject] = mark;
-        totalMarks += mark;
       }
     }
     
@@ -321,13 +421,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (validMarks) {
       // Calculate and update grand total and percentage
+      // Always use 6 subjects as denominator, even if some are 'AB'
       student.grandTotal = totalMarks;
       student.percentage = (totalMarks / 600) * 100;
+      saveStudentsToLocalStorage();
       renderTable();
       updateSidebar(student);
     }
     
     markEntryModal.hide();
+  });
+
+  // Step 4: Save to localStorage when attendance is updated directly
+  studentMarkInputs.attendance.addEventListener('change', function() {
+    if (currentStudentIndex >= 0 && currentStudentIndex < students.length) {
+      const val = parseInt(this.value);
+      if (!isNaN(val) && val >= 0 && val <= 42) {
+        students[currentStudentIndex].attendance = val;
+        saveStudentsToLocalStorage();
+      }
+    }
   });
 
   // Event listener for the modal's "Previous" button
@@ -368,7 +481,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update print-only elements
     printExamName.textContent = `${examName} CONSOLIDATED MARK LIST`;
     printClassInfo.textContent = `${className} ${year}`;
-    
+  saveStudentsToLocalStorage();
+  saveReportDetailsToLocalStorage();
     editHeaderModal.hide();
   });
   
