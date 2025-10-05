@@ -45,35 +45,35 @@ document.addEventListener('DOMContentLoaded', () => {
   let students;
   // Initial student data structure with multiple subjects
   const initialStudents = [
-    { id: 1, name: "ARSHAD RA", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 2, name: "ASWIN S N", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 3, name: "JAIKRISHNA R", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 4, name: "JAYISNU J", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 5, name: "KAMALESH S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 6, name: "MADHUKAR S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 7, name: "NEELAKANDAN M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 8, name: "NIRANJAN S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 9, name: "PANDI M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 10, name: "RITHISH K", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 11, name: "SARJUN SHERIF A", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 12, name: "VINU PRASAD R P", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 13, name: "YESHWANTH P", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 14, name: "KAVIYA A", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 15, name: "LATHIKA SREE S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 16, name: "OORVASHI M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 17, name: "SIVA SANKARI J", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 18, name: "SHIVA SREE R P", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 19, name: "THILAKSHIYA U", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 20, name: "ABDULKARIM M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 21, name: "AKASHJITH G", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 22, name: "GURUMYLESH M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 23, name: "SHANUF B", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 24, name: "SURYA P K", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 25, name: "VINOTH SL", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 26, name: "ATCHAYA M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 27, name: "PALL THANGAM V", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 28, name: "SAHANA M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
-    { id: 29, name: "SHIRLEYR", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 }
+    { exNo: "11CA29", id: 1, name: "ARSHAD RA", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA30", id: 2, name: "ASWIN S N", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA31", id: 3, name: "JAIKRISHNA R", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA32", id: 4, name: "JAYISNU J", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA33", id: 5, name: "KAMALESH S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA34", id: 6, name: "MADHUKAR S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA35", id: 7, name: "NEELAKANDAN M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA36", id: 8, name: "NIRANJAN S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA37", id: 9, name: "PANDI M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA38", id: 10, name: "RITHISH K", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA39", id: 11, name: "SARJUN SHERIF A", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA40", id: 12, name: "VINU PRASAD R P", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA41", id: 13, name: "YESHWANTH P", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA42", id: 14, name: "KAVIYA A", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA43", id: 15, name: "LATHIKA SREE S", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA44", id: 16, name: "OORVASHI M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA45", id: 17, name: "SIVA SANKARI J", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA46", id: 18, name: "SHIVA SREE R P", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11CA47", id: 19, name: "THILAKSHIYA U", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG48", id: 20, name: "ABDULKARIM M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG49", id: 21, name: "AKASHJITH G", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG50", id: 22, name: "GURUMYLESH M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG51", id: 23, name: "SHANUF B", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG52", id: 24, name: "SURYA P K", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG53", id: 25, name: "VINOTH SL", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG54", id: 26, name: "ATCHAYA M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG55", id: 27, name: "PALL THANGAM V", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG56", id: 28, name: "SAHANA M", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 },
+    { exNo: "11VG57", id: 29, name: "SHIRLEYR", marks: { language: 0, english: 0, economics: 0, commerce: 0, accountancy: 0, caAud: 0 }, grandTotal: 0, percentage: 0, rank: null, attendance: 0 }
   ];
 
   // Load students and report details from localStorage or use initial data
@@ -176,10 +176,23 @@ document.addEventListener('DOMContentLoaded', () => {
   tableBody.innerHTML = ''; 
     printTableBody.innerHTML = '';
     students.forEach((student, index) => {
-      // Main table row (desktop)
+      // Insert group code header rows in print table body only
+      if (index === 0) {
+        const groupRow = document.createElement('tr');
+        groupRow.innerHTML = `<td colspan="14" style="font-weight:bold;text-align:center;background:#bcbcbc;">GROUP CODE - 2702</td>`;
+        printTableBody.appendChild(groupRow);
+      }
+      if (index === 19) {
+        // Insert group code row for 2982 with page break style
+        const groupRow = document.createElement('tr');
+        groupRow.innerHTML = `<td colspan="14" style="font-weight:bold;text-align:center;background:#bcbcbc;page-break-before:always;">GROUP CODE - 2982</td>`;
+        printTableBody.appendChild(groupRow);
+      }
+      // ...existing code for table and print rows...
       const row = document.createElement('tr');
       const rankDisplay = student.rank !== null ? student.rank : '-';
       row.innerHTML = `
+        <td class="text-center">${student.exNo}</td>
         <td class="text-center">
           <button class="btn btn-sm btn-primary edit-btn" data-index="${index}">
             <i class="bi bi-pencil-square"></i>
@@ -194,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="text-center">${markCell(student.marks.accountancy)}</td>
         <td class="text-center">${markCell(student.marks.caAud)}</td>
         <td class="text-center">${student.grandTotal}</td>
-        <td class="text-center">${student.percentage.toFixed(2)}%</td>
+  <td class="text-center">${Math.round(student.percentage * 100) / 100}%</td>
         <td class="text-center">${rankDisplay}</td>
         <td class="text-center">${student.attendance}</td>
       `;
@@ -202,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Print table row
       const printRow = document.createElement('tr');
       printRow.innerHTML = `
+        <td>${student.exNo}</td>
         <td>${student.id}</td>
         <td class="text-start">${student.name}</td>
         <td>${markCell(student.marks.language)}</td>
@@ -211,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${markCell(student.marks.accountancy)}</td>
         <td>${markCell(student.marks.caAud)}</td>
         <td>${student.grandTotal}</td>
-        <td>${student.percentage.toFixed(2)}%</td>
+  <td>${Math.round(student.percentage * 100) / 100}%</td>
         <td>${rankDisplay}</td>
         <td>${student.attendance}</td>
       `;
@@ -262,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="student-card-marks mt-2">
           <span><b>Total:</b> ${student.grandTotal}</span>
-          <span><b>%:</b> ${student.percentage.toFixed(2)}%</span>
+          <span><b>%:</b> ${Math.round(student.percentage * 100) / 100}%</span>
         </div>
       `;
       cardList.appendChild(card);
@@ -411,9 +425,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Update attendance
-    const attendance = parseInt(studentMarkInputs.attendance.value);
-    if (!isNaN(attendance) && attendance >= 0 && attendance <= 42) {
-      student.attendance = attendance;
+    const attendance = parseFloat(studentMarkInputs.attendance.value);
+    if (!isNaN(attendance) && attendance >= 0 && attendance <= 100) {
+      student.attendance = Math.round(attendance * 10) / 10;
     } else {
       student.attendance = 0; // Default to 0 if invalid
       console.error('Invalid attendance value');
@@ -435,9 +449,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Step 4: Save to localStorage when attendance is updated directly
   studentMarkInputs.attendance.addEventListener('change', function() {
     if (currentStudentIndex >= 0 && currentStudentIndex < students.length) {
-      const val = parseInt(this.value);
-      if (!isNaN(val) && val >= 0 && val <= 42) {
-        students[currentStudentIndex].attendance = val;
+      const val = parseFloat(this.value);
+      if (!isNaN(val) && val >= 0 && val <= 100) {
+        students[currentStudentIndex].attendance = Math.round(val * 10) / 10;
         saveStudentsToLocalStorage();
       }
     }
