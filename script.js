@@ -1,4 +1,161 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Reusable rank calculation function
+  function calculateRanks(studentList) {
+    // Calculate grandTotal and percentage for each student
+    studentList.forEach(student => {
+      let totalMarks = 0;
+      let validMarks = true;
+      for (const subject of ['language','english','economics','commerce','accountancy','caAud']) {
+        const val = student.marks[subject];
+        if (val === 'AB' || val === '' || val === null) {
+          validMarks = false;
+        } else if (typeof val === 'number') {
+          totalMarks += val;
+        } else if (!isNaN(parseInt(val))) {
+          totalMarks += parseInt(val);
+        } else {
+          validMarks = false;
+        }
+      }
+      student.grandTotal = totalMarks;
+      student.percentage = (totalMarks / 600) * 100;
+    });
+    // Sort by grandTotal descending
+    const sorted = [...studentList].sort((a, b) => b.grandTotal - a.grandTotal);
+    // Find eligible students (no AB or fail)
+    const eligible = sorted.filter(student => {
+      for (const subject of ['language','english','economics','commerce','accountancy','caAud']) {
+        const val = student.marks[subject];
+        if (val === 'AB' || (typeof val === 'number' && val < 40) || (!isNaN(parseInt(val)) && parseInt(val) < 40)) {
+          return false;
+        }
+      }
+      return true;
+    });
+    // Assign ranks
+    let rank = 1;
+    let prevTotal = null;
+    let prevRank = null;
+    for (let i = 0; i < eligible.length; i++) {
+      const student = eligible[i];
+      if (prevTotal !== null && student.grandTotal === prevTotal) {
+        student.rank = prevRank;
+      } else {
+        student.rank = rank;
+        prevRank = rank;
+      }
+      prevTotal = student.grandTotal;
+      rank++;
+    }
+    // Assign null rank to ineligible students
+    studentList.forEach(student => {
+      if (!eligible.includes(student)) {
+        student.rank = null;
+      }
+    });
+  }
+  // Import CSV button logic
+  const importCsvBtn = document.getElementById('import-csv-btn');
+  const importCsvInput = document.getElementById('import-csv-input');
+  if (importCsvBtn && importCsvInput) {
+    importCsvBtn.addEventListener('click', () => {
+      importCsvInput.value = '';
+      importCsvInput.click();
+    });
+    importCsvInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          importStudentsFromCSV(evt.target.result);
+        };
+        reader.readAsText(file);
+      }
+    });
+  }
+
+  function importStudentsFromCSV(csvText) {
+    const lines = csvText.trim().split(/\r?\n/);
+    if (lines.length < 2) return;
+    const header = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+    const dataLines = lines.slice(1);
+    const newStudents = [];
+    dataLines.forEach((line, idx) => {
+      // Support both quoted and unquoted CSV
+      let cols;
+      if (line.includes('"')) {
+        cols = line.match(/("[^"]*"|[^,]+)/g).map(c => c.replace(/"/g, '').trim());
+      } else {
+        cols = line.split(',').map(c => c.trim());
+      }
+      if (cols.length < 13) return;
+      newStudents.push({
+        exNo: cols[0],
+        id: parseInt(cols[1]),
+        name: cols[2],
+        marks: {
+          language: isNaN(parseInt(cols[3])) ? cols[3] : parseInt(cols[3]),
+          english: isNaN(parseInt(cols[4])) ? cols[4] : parseInt(cols[4]),
+          economics: isNaN(parseInt(cols[5])) ? cols[5] : parseInt(cols[5]),
+          commerce: isNaN(parseInt(cols[6])) ? cols[6] : parseInt(cols[6]),
+          accountancy: isNaN(parseInt(cols[7])) ? cols[7] : parseInt(cols[7]),
+          caAud: isNaN(parseInt(cols[8])) ? cols[8] : parseInt(cols[8])
+        },
+        grandTotal: 0, // will be recalculated
+        percentage: 0, // will be recalculated
+        rank: null, // will be recalculated
+        attendance: parseFloat(cols[12])
+      });
+    });
+  students = newStudents;
+  calculateRanks(students);
+  saveStudentsToLocalStorage();
+  renderTable();
+  }
+  // Export CSV button logic
+  const exportCsvBtn = document.getElementById('export-csv-btn');
+  if (exportCsvBtn) {
+    exportCsvBtn.addEventListener('click', () => {
+      exportStudentsToCSV();
+    });
+  }
+
+  function exportStudentsToCSV() {
+    // CSV header
+    const header = [
+      'EX.NO', 'S.NO', 'NAME', 'LANGUAGE', 'ENGLISH', 'ECONOMICS', 'COMMERCE', 'ACCOUNTANCY', 'CA AUD', 'GRAND TOTAL', 'PERCENTAGE', 'RANK', 'ATTENDANCE'
+    ];
+    // Build rows
+    const rows = students.map(student => [
+      student.exNo,
+      student.id,
+      student.name,
+      student.marks.language,
+      student.marks.english,
+      student.marks.economics,
+      student.marks.commerce,
+      student.marks.accountancy,
+      student.marks.caAud,
+      student.grandTotal,
+      Math.round(student.percentage * 100) / 100,
+      student.rank !== null ? student.rank : '',
+      student.attendance
+    ]);
+    // Combine header and rows
+    const csvContent = [header, ...rows]
+      .map(row => row.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))
+      .join('\r\n');
+    // Download
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'students_marklist.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
   // Reset button logic
   const resetBtn = document.getElementById('reset-btn');
   if (resetBtn) {
@@ -207,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td class="text-center">${markCell(student.marks.accountancy)}</td>
         <td class="text-center">${markCell(student.marks.caAud)}</td>
         <td class="text-center">${student.grandTotal}</td>
-  <td class="text-center">${Math.round(student.percentage * 100) / 100}%</td>
+  <td class="text-center">${Math.round(student.percentage)}%</td>
         <td class="text-center">${rankDisplay}</td>
         <td class="text-center">${student.attendance}</td>
       `;
@@ -225,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${markCell(student.marks.accountancy)}</td>
         <td>${markCell(student.marks.caAud)}</td>
         <td>${student.grandTotal}</td>
-  <td>${Math.round(student.percentage * 100) / 100}%</td>
+  <td>${Math.round(student.percentage)}%</td>
         <td>${rankDisplay}</td>
         <td>${student.attendance}</td>
       `;
@@ -276,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="student-card-marks mt-2">
           <span><b>Total:</b> ${student.grandTotal}</span>
-          <span><b>%:</b> ${Math.round(student.percentage * 100) / 100}%</span>
+          <span><b>%:</b> ${Math.round(student.percentage)}%</span>
         </div>
       `;
       cardList.appendChild(card);
@@ -435,9 +592,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (validMarks) {
       // Calculate and update grand total and percentage
-      // Always use 6 subjects as denominator, even if some are 'AB'
       student.grandTotal = totalMarks;
       student.percentage = (totalMarks / 600) * 100;
+      calculateRanks(students);
       saveStudentsToLocalStorage();
       renderTable();
       updateSidebar(student);
